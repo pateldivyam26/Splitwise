@@ -1,0 +1,39 @@
+.login-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn {
+    background-color: #5bc5a7;
+    color: white;
+    border: none;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #48be9d;
+}
+
+.text-center a {
+    color: #48be9d;
+    text-decoration: none;
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-container .fa-eye {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

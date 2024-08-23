@@ -1,0 +1,33 @@
+<div class="container mt-4">
+    <h2>Edit Profile</h2>
+    <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+            <label for="username" class="form-label"><b>Your name</b></label>
+            <div class="editable-field">
+                <span *ngIf="!editingName">{{ editProfileForm.get('username')?.value }}</span>
+                <input *ngIf="editingName" type="text" class="form-control" formControlName="username" id="username">
+                <a (click)="toggleEditing('name')">{{ editingName ? '' : '✎ Edit' }}</a>
+            </div>
+            <div *ngIf="controls['username'].touched && controls['username'].errors && controls['username'].invalid">
+                <div class="text-danger" *ngIf="controls['username'].errors['required']">*Name is required.</div>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="email" class="form-label"><b>Your email address</b></label>
+            <div class="editable-field">
+                <span>{{ editProfileForm.get('email')?.value }}</span>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="password" class="form-label"><b>Password</b></label>
+            <input type="password" id="password" class="form-control" formControlName="password"
+                placeholder="Enter New Password">
+            <div *ngIf="controls['password'].touched && controls['password'].errors && controls['password'].invalid">
+                <div class="text-danger" *ngIf="controls['password'].errors['required']">*Password is required.</div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="editProfileForm.invalid">Update Profile</button>
+    </form>
+</div>

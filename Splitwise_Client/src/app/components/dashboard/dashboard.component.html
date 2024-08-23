@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-3 col-lg-2 left-sidebar">
+            <div *ngIf="invitations.length > 0"
+                class="invitations-link p-2 text-muted d-flex justify-content-between align-items-center"
+                style="cursor: pointer;" (click)="showInvitations()">
+                <span class="ms-1">INVITATIONS</span>
+                <mat-icon>mail</mat-icon>
+            </div>
+
+            <div class="tags">
+                <div class="header p-2 text-muted d-flex justify-content-between align-items-center"
+                    style="background-color: #e9ecef;">
+                    <span class="ms-1">GROUPS</span>
+                    <a class="text-muted" [routerLink]="['/groups/new']" style="text-decoration: none;">
+                        <mat-icon>add</mat-icon><span class="me-1">add</span>
+                    </a>
+                </div>
+                <ul class="list-group" *ngIf="groups.length > 0">
+                    <li *ngFor="let group of groups" class="list-group-item" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="text-muted group-link" style="text-decoration: none;"
+                            [routerLink]="['/dashboard/groups', group.groupId,'view-expense']"
+                            [queryParams]="{ groupId: group.groupId }">
+                            <mat-icon>local_offer</mat-icon><span> {{ group.groupName }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div *ngIf="selectedGroupMembers.length > 0" class="tags mt-3">
+                <div class="header p-2 text-muted d-flex justify-content-between align-items-center"
+                    style="background-color: #e9ecef;">
+                    <span class="ms-1">MEMBERS</span>
+                </div>
+                <ul class="list-group">
+                    <li *ngFor="let member of selectedGroupMembers" class="list-group-item">
+                        <a class="text-muted group-link" style="text-decoration: none;">
+                            <mat-icon>person</mat-icon><span> {{ member.name }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9 col-lg-10 main-content">
+            <div *ngIf="showingInvitations && invitations.length > 0" class="row p-4">
+                <h2 class="text-center text-muted mb-4"><b>INVITATIONS</b></h2>
+                <ul class="list-unstyled">
+                    <li *ngFor="let invitation of invitations" class="invitation-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="ms-2 mb-0"><b>{{ invitation.senderName }}</b> invited you to join group <b>"{{
+                                    invitation.groupName }}"</b></p>
+                            <div class="invitation-buttons">
+                                <button class="btn btn-success me-2"
+                                    (click)="acceptInvitation(invitation.id)">Accept</button>
+                                <button class="btn btn-danger"
+                                    (click)="declineInvitation(invitation.id)">Decline</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <router-outlet></router-outlet>
+            </div>
+            <div *ngIf="!hasGroupSelected && !showingInvitations && groups.length > 0" class="row align-items-center p-2">
+                <div class="col-12 mb-4 d-flex justify-content-between align-items-center bg-light shadow-sm p-2">
+                    <h2 class="mb-0"><b>Dashboard</b></h2>
+                </div>
+                <!-- <div class="col-md-6 text-center p-2">
+                    <h5 class="text-muted"><b>YOU OWE</b></h5>
+                    <p *ngIf="totalOwed === 0">You do not owe anything</p>
+                    <p *ngIf="totalOwed > 0" class="text-danger">You owe {{ totalOwed | currency: 'INR' }}</p>
+                </div>
+                <div class="col-md-6 text-center p-2">
+                    <h5 class="text-muted"><b>YOU ARE OWED</b></h5>
+                    <p *ngIf="totalLent === 0">No one owes you anything</p>
+                    <p *ngIf="totalLent > 0" class="text-success">You are owed {{ totalLent | currency: 'INR' }}</p>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

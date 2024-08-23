@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="card shadow-sm mb-3">
+        <div class="card-header text-white">
+            <h4>Add Member to Group</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="addMemberForm" (ngSubmit)="onAddUser()">
+                <div class="mb-3">
+                    <label for="userEmail" class="form-label">Email:</label>
+                    <input type="email" id="userEmail" formControlName="email" class="form-control"
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" placeholder="Enter email address"
+                        required>
+                    <div *ngIf="controls['email'].touched && controls['email'].errors && controls['email'].invalid">
+                        <div class="text-danger" *ngIf="controls['email'].errors['required']">*Email is required.</div>
+                        <div class="text-danger" *ngIf="controls['email'].errors['pattern']">*Please enter a valid email
+                            address.</div>
+                    </div>
+                </div>
+                <div class="text-danger mb-3" *ngIf="errorMessage">
+                    <b>{{ errorMessage }}</b>
+                </div>
+                <div class="text-success mb-3" *ngIf="successMessage">
+                    <b>{{ successMessage }}</b>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary ">
+                        Add Member
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

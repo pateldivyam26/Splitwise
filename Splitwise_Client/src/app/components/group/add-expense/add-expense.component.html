@@ -1,0 +1,168 @@
+<div class="container-fluid">
+    <div class="card shadow-sm mb-3">
+        <div class="card-header text-white d-flex align-items-center">
+            <h4 *ngIf="mode === 'add'">Add an expense</h4>
+            <h4 *ngIf="mode === 'edit'">Edit expense</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="expenseForm" (ngSubmit)="onAddOrUpdateExpense()" class="max-w-md mx-auto mb-4">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="expenseName" class="form-label">Expense Name:</label>
+                        <input type="text" id="expenseName" class="form-control mt-1" placeholder="Expense Name"
+                            formControlName="expenseName" required>
+                        <div *ngIf="controls['expenseName'].touched && controls['expenseName'].errors">
+                            <div class="text-danger" *ngIf="controls['expenseName'].errors['required']">*Expense Name is
+                                required.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="amount" class="form-label">Amount:</label>
+                        <input type="number" id="amount" class="form-control mt-1" placeholder="Amount"
+                            formControlName="amount" required min="0" appDecimalInput>
+                        <div *ngIf="controls['amount'].touched && controls['amount'].errors">
+                            <div class="text-danger" *ngIf="controls['amount'].errors['required']">*Amount is required.</div>
+                            <div class="text-danger" *ngIf="controls['amount'].errors['min']">*Amount must be greater than or
+                                equal to 0.</div>
+                            <div class="text-danger" *ngIf="controls['amount'].errors['invalidDecimal']">*Please enter a valid
+                                amount with up to two decimal places.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="payer" class="form-label">Paid By:</label>
+                        <select id="payer" class="form-select" formControlName="payer" required>
+                            <option value="" disabled selected>Select Payer</option>
+                            <option *ngFor="let member of members" [value]="member.id">{{ member.name }}</option>
+                        </select>
+                        <div *ngIf="controls['payer'].touched && controls['payer'].errors">
+                            <div class="text-danger" *ngIf="controls['payer'].errors['required']">*Payer is required.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="category" class="form-label">Select a category:</label>
+                        <select id="category" class="form-control" formControlName="category">
+                            <ng-container *ngFor="let category of categories">
+                                <optgroup [label]="category.title">
+                                    <option *ngFor="let subcategory of category.categories" [value]="subcategory">
+                                        {{ subcategory }}
+                                    </option>
+                                </optgroup>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="expenseDate" class="form-label">Expense Date:</label>
+                        <input type="date" id="expenseDate" class="form-control" formControlName="expenseDate"
+                            [value]="expenseForm.value.expenseDate">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <p class="mb-2">Select a split type:</p>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <div class="col-12 col-sm-6 col-md-3 p-1">
+                            <button type="button" (click)="toggleSplitType('equal')" class="btn w-100"
+                                [ngClass]="{'btn-primary': selectedSplitType === 'equal', 'btn-outline-secondary': selectedSplitType !== 'equal'}">
+                                Equal Split
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 p-1">
+                            <button type="button" (click)="toggleSplitType('unequal')" class="btn w-100"
+                                [ngClass]="{'btn-primary': selectedSplitType === 'unequal', 'btn-outline-secondary': selectedSplitType !== 'unequal'}">
+                                Unequal Split
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 p-1">
+                            <button type="button" (click)="toggleSplitType('shares')" class="btn w-100"
+                                [ngClass]="{'btn-primary': selectedSplitType === 'shares', 'btn-outline-secondary': selectedSplitType !== 'shares'}">
+                                By Shares
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 p-1">
+                            <button type="button" (click)="toggleSplitType('percentages')" class="btn w-100"
+                                [ngClass]="{'btn-primary': selectedSplitType === 'percentages', 'btn-outline-secondary': selectedSplitType !== 'percentages'}">
+                                By Percentages
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mb-4">
+                    <p class="mb-2">Participants:</p>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <ng-container *ngFor="let member of members; let i = index">
+                            <div class="col-12 mb-2">
+                                <div class="d-flex flex-column align-items-center">
+                                    <button type="button" class="btn w-100 mb-1"
+                                        [ngClass]="{'btn-primary': isParticipantSelected(member.id), 'btn-outline-secondary': !isParticipantSelected(member.id)}"
+                                        (click)="toggleParticipant(member.id)">
+                                        {{ member.name }}
+                                    </button>
+                                    <div *ngIf="isParticipantSelected(member.id)" class="w-100">
+                                        <ng-container *ngIf="selectedSplitType === 'unequal'">
+                                            <input type="number" class="form-control mt-1" placeholder="Amount"
+                                                [value]="participantAmounts[member.id] || 0"
+                                                (input)="updateParticipantAmount(member.id, $event)" required min="1"
+                                                name="unequalAmount_{{i}}" id="unequalAmount_{{i}}"
+                                                (change)="updateParticipantAmountDecimal(member.id, $event)">
+                                        </ng-container>
+                                        <ng-container *ngIf="selectedSplitType === 'shares'">
+                                            <input type="number" class="form-control mt-1" placeholder="Share"
+                                                [value]="participantShares[member.id] || 0"
+                                                (input)="updateParticipantShares(member.id, $event)" required min="1"
+                                                step="1" name="shares_{{i}}" id="shares_{{i}}">
+                                        </ng-container>
+                                        <ng-container *ngIf="selectedSplitType === 'percentages'">
+                                            <input type="number" class="form-control mt-1" placeholder="Percentage"
+                                                [value]="participantPercentages[member.id] || 0"
+                                                (input)="updateParticipantAmount(member.id, $event)" required min="1"
+                                                name="percentages_{{i}}" id="percentages_{{i}}"
+                                                (change)="updateParticipantAmountDecimal(member.id, $event)">
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="!canAddExpense()" class="text-danger">
+                        *Select at least 1 participant other than payer.
+                    </div>
+                    <div *ngIf="((mode === 'add' && expenseForm.get('amount')?.touched) || mode==='edit') && selectedSplitType === 'unequal' && !isTotalAmountValid()"
+                        class="text-danger">
+                        *Individual participant amount must be greater than 0 and sum of participant amount must be
+                        equal to
+                        {{expenseForm.get('amount')?.value}}.
+                    </div>
+                    <div *ngIf="((mode === 'add' && expenseForm.get('amount')?.touched) || mode==='edit') && selectedSplitType === 'shares' && !isTotalAmountValid()"
+                        class="text-danger">
+                        *Individual share must be Integer and greater than 0.
+                    </div>
+                    <div *ngIf="((mode === 'add' && expenseForm.get('amount')?.touched) || mode==='edit') && selectedSplitType === 'percentages' && !isTotalAmountValid()"
+                        class="text-danger">
+                        *Individual participant percentage must be greater than 0 and sum of participant percentages
+                        must be
+                        equal to 100.
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="description" class="form-label">Description:</label>
+                    <input type="text" id="description" class="form-control" placeholder="Description"
+                        formControlName="description">
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-primary" type="submit"
+                        [disabled]="expenseForm.invalid || !canAddExpense() || (selectedSplitType !== 'equal' && !isTotalAmountValid())"
+                        [ngClass]="{'btn-secondary': expenseForm.invalid || !canAddExpense() || (selectedSplitType !== 'equal' && !isTotalAmountValid())}">
+                        {{ mode === 'add' ? 'Add Expense' : 'Edit Expense' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

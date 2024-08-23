@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-white text-center">
+                    <h4>Group Balance</h4>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="balanceWithNames && balanceWithNames.length > 0; else settledUp">
+                        <ul class="list-group">
+                            <li *ngFor="let balance of balanceWithNames; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>{{ balance.from === currentUser.name ? 'You owe' : balance.from + ' owes' }} {{ balance.to === currentUser.name ? 'you' : balance.to }}</strong>
+                                    <span class="text-danger"><b> {{ balance.balance | absolute | currency: 'INR' }}</b></span>
+                                </span>
+                                <button type="button" class="btn btn-settle" (click)="confirmSettleBalance(i)">
+                                    Settle
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <ng-template #settledUp>
+                        <span>This group is settled up.</span>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-white text-center">
+                    <h4>Members Balance</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li *ngFor="let member of members" class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <strong>{{ member.name }}</strong>
+                                <ng-container *ngIf="member.balance === 0">
+                                    is settled up
+                                </ng-container>
+                                <ng-container *ngIf="member.balance !== 0">
+                                    {{ member.balance > 0 ? 'gets back ' : 'owes ' }}
+                                    <span [ngStyle]="{ color: member.balance > 0 ? '#5bc5a7' : '#ff652f' }">
+                                        <b>{{ member.balance | absolute | currency: 'INR' }}</b>
+                                    </span>
+                                    in total
+                                </ng-container>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

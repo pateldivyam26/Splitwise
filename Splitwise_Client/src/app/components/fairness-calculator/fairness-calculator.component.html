@@ -1,0 +1,72 @@
+<div class="container mt-4">
+    <div class="mb-3 text-center">
+        <h1>Fairness calculators</h1>
+        <h4 class="text-muted">Wondering what&rsquo;s fair? Let us help:</h4>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4 text-center mb-3">
+            <a [routerLink]="['/dashboard']" class="calculator-primary-button btn d-flex align-items-center">
+                <img src="./assets/images/fairness_home.png" width="130px" height="140px" alt="Home">
+                <div class="text-center ml-3">
+                    How should you<br>
+                    <strong>split the rent</strong><br>
+                    in a new apartment?
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 text-center mb-3">
+            <a [routerLink]="['/dashboard']" class="calculator-primary-button btn d-flex align-items-center">
+                <img src="./assets/images/fairness_rent.png" width="130px" height="140px" alt="Renters insurance">
+                <div class="text-center ml-3">
+                    Should you get<br><strong>renters insurance</strong>?
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center mb-3">
+            <div class="big-button-container">
+                <a [routerLink]="['/dashboard']" class="big-button btn btn-light">
+                    <span class="text-muted">What would be a fair US tax code?</span>
+                    <hr>
+                    <img src="./assets/images/fairness_tax.png" width="70px" height="80px" alt="Tax Calculator"><br>
+                    Decide for yourself with our<br><b>Tax Calculator &raquo;</b>
+                </a>
+                <a [routerLink]="['/dashboard']" class="big-button btn btn-light">
+                    <span class="text-muted">Buying or selling used furniture?</span>
+                    <hr>
+                    <img src="./assets/images/fairness_furniture.png" width="70px" height="80px"
+                        alt="Furniture Calculator"><br>
+                    Set a price with our<br><b>Furniture Calculator &raquo;</b>
+                </a>
+                <a [routerLink]="['/dashboard']" class="big-button btn btn-light">
+                    <span class="text-muted">Staying over at a friend&rsquo;s place?</span>
+                    <hr>
+                    <img src="./assets/images/fairness_guest.png" width="70px" height="80px" alt="Guest Calculator"><br>
+                    Couch-surf fairly with our<br><b>Guest Calculator &raquo;</b>
+                </a>
+                <a [routerLink]="['/dashboard']" class="big-button btn btn-light">
+                    <span class="text-muted">Loud neighbors? Can&rsquo;t sleep at night?</span>
+                    <hr>
+                    <img src="./assets/images/fairness_noise.png" width="70px" height="80px" alt="Noise Calculator"><br>
+                    Find out the cost with our<br><b>Noise Calculator &raquo;</b>
+                </a>
+            </div>
+            <div class="big-button-container centered">
+                <a [routerLink]="['/dashboard']" class="big-button btn btn-light">
+                    <span class="text-muted">Going on a trip with friends?</span>
+                    <hr>
+                    <img src="./assets/images/fairness_travel.png" width="70px" height="80px"
+                        alt="Travel Calculator"><br>
+                    Share travel costs with our<br><b>Travel Calculator &raquo;</b>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row bottom">
+        <div class="col-md-12 text-center text-muted py-4">
+            Have a different sharing problem that needs solving? <a [routerLink]="['/contact']">Ask Splitwise</a>!
+        </div>
+    </div>
+</div>

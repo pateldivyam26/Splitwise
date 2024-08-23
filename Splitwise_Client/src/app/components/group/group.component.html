@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-12 p-2 mb-4 d-flex justify-content-between align-items-center bg-light shadow-sm">
+            <div class="d-flex align-items-center">
+                <div class="avatar" [ngStyle]="{'background-color': groupIconColor}">
+                    <mat-icon class="group-icon">list_alt</mat-icon>
+                </div>
+                <h5 class="mb-0" *ngIf="groupName"><b>{{groupName}}</b></h5>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-expense me-2" [routerLink]="['add-expense']"
+                    [queryParams]="{ groupId: groupId }">Add an expense</button>
+                <button type="button" class="btn btn-settle me-2" [routerLink]="['view-balance']"
+                    [queryParams]="{ groupId: groupId }">Settle up</button>
+                <button type="button" class="btn btn-primary" [routerLink]="['add-member']" [queryParams]="{ groupId: groupId }">Add
+                    Member</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <router-outlet></router-outlet>
+    </div>
+</div>

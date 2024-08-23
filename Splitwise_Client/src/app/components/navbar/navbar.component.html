@@ -1,0 +1,42 @@
+<div class="row">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-3" (click)="onLogoClick()">
+                <img src="./assets/images/splitwise.svg" alt="Logo" style="width:110px; height: 25px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-2">
+                        <a class="nav-link" style="font-size: medium;" [routerLink]="['/login']"
+                            *ngIf="!userLoggedIn">Log in</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <button class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['/signup']"
+                            *ngIf="!userLoggedIn">Sign
+                            up</button>
+                    </li>
+                    <li class="nav-item dropdown me-5" *ngIf="userLoggedIn">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="avatar-circle me-2">{{userInitials}}</div>
+                            <b style="font-size: large; margin-right: 5px;">{{userDetails?.name}}</b>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-lg-start" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" [routerLink]="['/account/settings']">Your account</a></li>
+                            <li><a class="dropdown-item" [routerLink]="['/groups/new']">Create a group</a></li>
+                            <li><a class="dropdown-item" [routerLink]="['/calculators']">Fairness calculators</a></li>
+                            <li><a class="dropdown-item" [routerLink]="['/contact']">Contact support</a></li>
+                            <li><a class="dropdown-item" (click)="onLogout()">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

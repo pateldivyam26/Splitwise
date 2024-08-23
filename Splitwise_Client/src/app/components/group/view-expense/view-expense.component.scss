@@ -1,0 +1,49 @@
+.mat-form-field {
+    width: 100%;
+    max-width: 400px;
+}
+
+.mat-icon:hover {
+    text-decoration: underline;
+}
+
+.notes-card{
+    border-radius: 0.25rem;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    background-color: rgb(252, 245, 245);   
+    padding: 10px;
+}
+
+tr.example-detail-row {
+    height: 0;
+    // cursor: pointer;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+    cursor: pointer;
+}
+
+.name:hover {
+    text-decoration: underline;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+    font-size: 1.1em;
+    color: rgb(67, 66, 66);
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+.example-element-description {
+    display: flex;
+    flex-wrap: wrap;
+}

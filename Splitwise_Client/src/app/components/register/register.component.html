@@ -1,0 +1,55 @@
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="register-box">
+    <a>
+      <img src="./assets/images/splitwise_reg.svg" height="200" width="200" class="envelope" alt="Logo">
+    </a>
+    <div class="content-block">
+      <h3 class="text-muted">INTRODUCE YOURSELF</h3>
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="form-stacked">
+        <div class="form-group mb-2">
+          <label for="username">
+            <h4>Hi there! My name is</h4>
+          </label>
+          <input #username="ngModel" name="username" [(ngModel)]="formData.username" type="text" class="form-control"
+            id="username" (input)="onNameInputChange()" required>
+          <div class="text-danger" *ngIf="username.touched && username.invalid">
+            <div *ngIf="username.errors?.['required']">Name is required.</div>
+          </div>
+        </div>
+
+        <div *ngIf="showEmailAndPassword">
+          <div class="form-group mb-2">
+            <label for="email" class="form-label">Here's my email address:</label>
+            <input #email="ngModel" name="email" [(ngModel)]="formData.email" type="email" id="email"
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" class="form-control" required>
+            <div class="text-danger" *ngIf="email.touched && email.invalid">
+              <div *ngIf="email.errors?.['required']">Email is required.</div>
+              <div *ngIf="email.errors?.['pattern']">Please enter a valid email address.</div>
+            </div>
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="password">And here's my password:</label>
+            <div class="password-container">
+              <input #password="ngModel" name="password" [(ngModel)]="formData.password" type="password" id="password"
+                class="form-control" required>
+              <i class="fa fa-light fa-eye float-right" id="togglePassword" (click)="togglePassword()"></i>
+            </div>
+            <div class="text-danger" *ngIf="password.touched && password.invalid">
+              <div *ngIf="password.errors?.['required']">Password is required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-danger" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <div class="text-center mt-2">
+          <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Sign me up!</button>
+        </div>
+      </form>
+      <a href="https://secure.splitwise.com/terms">By signing up, you accept the Splitwise Terms of Service.</a>
+    </div>
+  </div>
+</div>

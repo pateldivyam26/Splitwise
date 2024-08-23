@@ -1,0 +1,14 @@
+<div class="container d-flex align-items-center justify-content-between" style="padding: 50px">
+    <div class="home-content">
+        <h1 class="text-muted"><b>Less stress when sharing expenses</b></h1>
+        <h1><span class="highlight-text" [ngStyle]="{'color': currentColor}"><b>{{ currentText }}</b></span></h1>
+        <p>Keep track of your shared expenses and balances with housemates, trips, groups, friends, and family.</p>
+        <button class="btn" [ngStyle]="{'background-color': currentColor}" [routerLink]="['/signup']">Sign up</button>
+    </div>
+    <div class="home-image">
+        <img src="assets/images/split_home.jpeg" alt="Splitwise Home">
+    </div>
+</div>
+<div class="row">
+    <app-footer></app-footer>
+</div>

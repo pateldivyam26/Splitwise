@@ -1,0 +1,163 @@
+<div class="container-fluid">
+    <div class="card shadow-sm mb-3">
+        <div class="card-header text-white d-flex align-items-center mb-2">
+            <h4>Expenses</h4>
+            <button *ngIf="expenseNo!=0" class="btn btn-expense ms-auto" (click)="downloadExpenses()">Download</button>
+            <!-- <button *ngIf="expenseNo!=0" class="btn btn-expense ms-2" (click)="captureScreen()">Charts</button> -->
+            <div *ngIf="expenseNo!=0" class="d-flex justify-content-center ms-2">
+                <input type="text" id="search" class="form-control" [(ngModel)]="searchTerm"
+                    (keyup)="applyFilterExpense()" placeholder="Search Expense">
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- <div *ngIf="expenseNo!=0" class="mb-4 d-flex justify-content-center">
+                <mat-form-field>
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate [(ngModel)]="startDate" (dateInput)="applyFilterExpense()"
+                            (dateChange)="applyFilterExpense()" placeholder="Start date">
+                        <input matEndDate [(ngModel)]="endDate" (dateInput)="applyFilterExpense()"
+                            (dateChange)="applyFilterExpense()" placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <button class="btn" mat-icon-button matSuffix (click)="clearDateRange()">
+                        <mat-icon aria-label="Clear range">clear</mat-icon>
+                    </button>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+            </div> -->
+
+            <div *ngIf="expenseNo==0" class="row d-flex justify-content-center text-center">
+                <img src="./assets/images/done.png" alt="Settled" style="width:220px; height: 200px;">
+                <p class="text-muted">No expense created.</p>
+            </div>
+
+            <!-- <div *ngIf="expenseNo!=0">
+                <div class="row mt-4 justify-content-center" id="chartsContainer">
+                    <div class="col-md-8">
+                        <canvasjs-chart [options]="chartOptions"
+                            [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="overflow-x-auto">
+                <table mat-table [dataSource]="expenseList" matSort multiTemplateDataRows
+                    class="table-fixed mat-elevation-z8">
+                    <ng-container matColumnDef="expenseDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Expense Date</b></th>
+                        <td mat-cell *matCellDef="let element">{{ element.expenseDate | date }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="expenseImage">
+                        <th mat-header-cell *matHeaderCellDef><b>Expense Image</b></th>
+                        <td mat-cell *matCellDef="let element"><img src="./assets/images/general.png" alt="Logo"
+                                style="width:40px; height: 40px;"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="expenseName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Expense Name</b></th>
+                        <td mat-cell *matCellDef="let element" class="name"><b>{{ element.expenseName }}</b></td>
+                    </ng-container>
+                    <ng-container matColumnDef="payerName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Payer Name</b></th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.payerName === currentUser.name">
+                                You paid <b class="text-black">{{element.amount | currency: 'INR' }}</b>
+                            </div>
+                            <div *ngIf="element.payerName !== currentUser.name">
+                                {{ element.payerName }} paid <b class="text-black">{{
+                                    element.amount |
+                                    currency: 'INR' }}</b>
+                            </div>
+
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="amount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Amount Paid</b></th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.payerName === currentUser.name">
+                                You lent
+                                <span style="color: #5bc5a7; font-weight: bold;">
+                                    {{ calculateLentAmount(element) | currency: 'INR' }}
+                                </span>
+                            </div>
+                            <div *ngIf="element.payerName !== currentUser.name">
+                                <div *ngIf="calculateOwedAmount(element) === 0">
+                                    not involved
+                                </div>
+                                <div *ngIf="calculateOwedAmount(element) !== 0">
+                                    You owe
+                                    <span style="color: #ff652f; font-weight: bold;">
+                                        {{ calculateOwedAmount(element) | currency: 'INR' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef><b>Actions</b></th>
+                        <td mat-cell *matCellDef="let element">
+                            <button (click)="deleteExpense(element)" matTooltip="Delete" class="btn">
+                                <mat-icon style="color: red;">close</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="example-element-detail mt-2" style="background-color: rgb(233, 251, 244);"
+                                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                <div class="example-element-description p-3">
+                                    <div class="row">
+                                        <h3>{{element.expenseName}} | {{element.amount | currency:'INR'}} <button
+                                                type="button" (click)="editExpense(element)"
+                                                class="btn btn-expense btn-sm">
+                                                Edit expense
+                                            </button></h3>
+                                    </div>
+                                    <div class="row">
+                                        <div class="row col-md-2 ms-4">
+                                            <img src="./assets/images/general.png" alt="Logo"
+                                                style="width:120px; height: 100px;" class="img-fluid rounded">
+                                        </div>
+                                        <div class="row col-md-4">
+                                            <p class="mb-2"><strong>Expense Date:</strong> {{element.expenseDate |
+                                                date}}</p>
+                                            <p class="mb-2"><strong>Payer Name:</strong> {{element.payerName}}</p>
+                                            <p class="mb-2"><strong>Split Type:</strong> {{element.splitType}}</p>
+                                            <p class="mb-2"><strong>Expense Category:</strong> {{element.category}}</p>
+                                        </div>
+                                        <div class="notes-card col-md-4">
+                                            <h6 class="text-black">Notes </h6>
+                                            <p class="mb-2" *ngIf="element.description">{{element.description }}</p>
+                                        </div>
+                                        <div *ngIf="element.participantsArray">
+                                            <p class="mb-2"><strong>Participants:</strong></p>
+                                            <ul>
+                                                <li *ngFor="let participant of element.participantsArray" class="mb-1">
+                                                    <ng-container *ngIf="participant.isPayer; else notPayer">
+                                                        <b>{{ participant.name }}</b> paid <b>{{ element.amount |
+                                                            currency:'INR'}}</b>
+                                                        and owes <b>{{ participant.amount | currency:'INR'}}</b>
+                                                    </ng-container>
+                                                    <ng-template #notPayer>
+                                                        <b>{{ participant.name }}</b> owes <b>{{ participant.amount |
+                                                            currency:'INR'}}</b>
+                                                    </ng-template>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+                        [class.example-expanded-row]="expandedElement === element"
+                        (click)="expandedElement = expandedElement === element ? null : element">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

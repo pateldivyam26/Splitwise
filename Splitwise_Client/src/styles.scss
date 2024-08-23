@@ -1,0 +1,125 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$Splitwise_Client-primary: mat.define-palette(mat.$indigo-palette);
+$Splitwise_Client-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$Splitwise_Client-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$Splitwise_Client-theme: mat.define-light-theme((color: (primary: $Splitwise_Client-primary,
+        accent: $Splitwise_Client-accent,
+        warn: $Splitwise_Client-warn,
+      )));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($Splitwise_Client-theme);
+
+/* You can add global styles to this file, and also import other style files */
+.error-message {
+  color: red;
+}
+
+// .ng-valid[required], .ng-valid.required  {
+//   border-left: 5px solid #42A948;
+// }
+
+// .ng-invalid:not(form)  {
+//   border-left: 5px solid #a94442;
+// }
+
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):hover,
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):focus,
+textarea:hover,
+textarea:focus,
+select:hover,
+select:focus {
+  border: 2px solid #48be9d;
+  outline: none;
+}
+
+.form-control,
+.form-select {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #f7f7f7;
+}
+
+.navbar {
+  background-color: #48be9d;
+  font-size: 14px;
+}
+
+.navbar-nav .nav-link {
+  color: white;
+  transition: color 0.3s, box-shadow 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #48be9d;
+}
+
+.footer {
+  background-color: #00246B;
+  color: rgb(27, 24, 24);
+  padding: 10px 0;
+  text-align: center;
+}
+
+.footer .social-icons a {
+  color: rgb(23, 21, 21);
+  margin: 0 10px;
+  font-size: 24px;
+}
+
+.btn-expense {
+  background-color: #ff652f;
+  border-color: #ff652f;
+  text-shadow: 0 -1px 0 #c83400;
+  color: white;
+}
+
+.btn-settle {
+  background-color: #5bc5a7;
+  text-shadow: 0 -1px 0 #318970;
+  color: white;
+}
+
+.btn-expense:hover {
+  background-color: #ff5216;
+  color: white;
+}
+
+.btn-settle:hover {
+  background-color: #3ca487;
+  color: white;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
