@@ -1,4 +1,3 @@
-import { Category } from './../../../../../../../MELENTO/MELENTO_Client/src/app/models/category';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { MatSort } from '@angular/material/sort';

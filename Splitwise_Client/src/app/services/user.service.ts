@@ -7,7 +7,7 @@ import { Observable, throwError } from 'rxjs';
 })
 export class UserService {
 
-  private baseUrl = 'http://localhost:3000/users';
+  private baseUrl = 'https://splitwise-crkr.onrender.com/users';
 
   httpHeader = {
     headers: new HttpHeaders({

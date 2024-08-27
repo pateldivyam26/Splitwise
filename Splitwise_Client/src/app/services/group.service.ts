@@ -10,7 +10,7 @@ import { UserService } from './user.service';
 })
 export class GroupService {
 
-  private groupUrl = 'http://localhost:3000/groups';
+  private groupUrl = 'https://splitwise-crkr.onrender.com/groups';
 
   httpHeader = {
     headers: new HttpHeaders({

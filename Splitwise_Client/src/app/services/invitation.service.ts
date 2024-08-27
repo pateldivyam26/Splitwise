@@ -7,7 +7,7 @@ import { Observable, throwError } from 'rxjs';
 })
 export class InvitationService {
 
-  private invitationUrl = 'http://localhost:3000/invitations';
+  private invitationUrl = 'https://splitwise-crkr.onrender.com/invitations';
 
   httpHeader={
     headers:new HttpHeaders({

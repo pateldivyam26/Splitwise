@@ -7,7 +7,7 @@ import { catchError, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'https://splitwise-crkr.onrender.com';
   httpHeader = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

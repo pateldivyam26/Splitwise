@@ -8,8 +8,8 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class ExpenseService {
 
-  private expensesUrl = 'http://localhost:3000/expenses';
-  private groupUrl = 'http://localhost:3000/groups';
+  private expensesUrl = 'https://splitwise-crkr.onrender.com/expenses';
+  private groupUrl = 'https://splitwise-crkr.onrender.com/groups';
 
   httpHeader={
     headers:new HttpHeaders({
