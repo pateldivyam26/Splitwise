@@ -76,6 +76,9 @@ Splitwise is a full-stack web application built using the MEAN stack (MongoDB, E
     Open your web browser and navigate to `http://localhost:4200`.
 
 ## DB Schema
+
+![DB_SCHEMA](images/db_schema.png)
+
 - **Users**: Stores user information, including groups they belong to and invitations they have received.
 - **Groups**: Represents groups, their members, expenses, and balances between members.
 - **Invitations**: Manages invitations sent by users to invite others to groups.
